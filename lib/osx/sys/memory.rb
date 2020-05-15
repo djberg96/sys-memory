@@ -15,6 +15,16 @@ module Sys
 
     typedef :uint, :natural_t
 
+    class Swap < FFI::Struct
+      layout(
+        :xsu_total, :uint64_t,
+	      :xsu_avail, :uint64_t,
+	      :xsu_used, :uint64_t,
+        :xsu_pagesize, :uint32_t,
+	      :xsu_encrypted, :bool
+      )
+    end
+
     class VmStat < FFI::Struct
       layout(
 	      :free_count, :natural_t,             # of pages free
@@ -45,29 +55,41 @@ module Sys
     end
 
     def memory
-      optr = FFI::MemoryPointer.new(:uint64_t)
-      size = FFI::MemoryPointer.new(:size_t)
-      size.write_int(optr.size)
-
       hash = {}
+      page_size = 4096 # Possibly changed later
 
-      if sysctlbyname('hw.memsize', optr, size, nil, 0) < 0
-        raise Error, "sysctlbyname function failed"
+      begin
+        optr = FFI::MemoryPointer.new(:uint64_t)
+        size = FFI::MemoryPointer.new(:size_t)
+        size.write_int(optr.size)
+
+        if sysctlbyname('hw.memsize', optr, size, nil, 0) < 0
+          raise Error, "sysctlbyname function failed"
+        end
+
+        hash[:total_memory] = optr.read_uint64
+      ensure
+        optr.free if optr && !optr.null?
+        size.clear
       end
 
-      memsize = optr.read_uint64
+      begin
+        swap = Swap.new
+        size.write_int(swap.size)
 
-      hash[:total_memory] = memsize
+        if sysctlbyname('vm.swapusage', swap, size, nil, 0) < 0
+          raise Error, "sysctlbyname function failed"
+        end
+
+        hash[:swap_total] = swap[:xsu_total]
+        hash[:swap_available] = swap[:xsu_avail]
+        hash[:swap_used] = swap[:xsu_used]
+        page_size = swap[:xsu_pagesize]
+      ensure
+        size.free if size && !size.null?
+      end
 
       host_self = mach_host_self()
-
-      psize = FFI::MemoryPointer.new(:uint)
-
-      rv = host_page_size(host_self, psize)
-      raise SystemCallError.new('host_page_size', rv) if rv != 0
-
-      page_size = psize.read_uint
-
       vmstat = VmStat.new
       count = FFI::MemoryPointer.new(:size_t)
       count.write_int(vmstat.size)
@@ -84,10 +106,7 @@ module Sys
 
       hash
     ensure
-      size.free if size && !size.null?
-      optr.free if optr && !optr.null?
       count.free if count && !count.null?
-      psize.free if psize && !psize.null?
     end
 
     module_function :memory
