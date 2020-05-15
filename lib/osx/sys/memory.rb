@@ -75,6 +75,7 @@ module Sys
       rv = host_statistics64(host_self, HOST_VM_INFO64, vmstat, count)
       raise SystemCallError.new('host_statistics64', rv) if rv != 0
 
+      hash[:free] = vmstat[:free_count] * page_size
       hash[:active] = vmstat[:active_count] * page_size
       hash[:inactive] = vmstat[:inactive_count] * page_size
       hash[:speculative] = vmstat[:speculative_count] * page_size
