@@ -18,39 +18,39 @@ module Sys
     class Swap < FFI::Struct
       layout(
         :xsu_total, :uint64_t,
-	      :xsu_avail, :uint64_t,
-	      :xsu_used, :uint64_t,
+        :xsu_avail, :uint64_t,
+        :xsu_used, :uint64_t,
         :xsu_pagesize, :uint32_t,
-	      :xsu_encrypted, :bool
+        :xsu_encrypted, :bool
       )
     end
 
     class VmStat < FFI::Struct
       layout(
-	      :free_count, :natural_t,             # of pages free
-	      :active_count, :natural_t,           # of pages active
-	      :inactive_count, :natural_t,         # of pages inactive
-	      :wire_count, :natural_t,             # of pages wired down
-	      :zero_fill_count, :uint64_t,         # of zero fill pages
-	      :reactivations, :uint64_t,           # of pages reactivated
-	      :pageins, :uint64_t,                 # of pageins
-	      :pageouts, :uint64_t,                # of pageouts
-	      :faults, :uint64_t,                  # of faults
-	      :cow_faults, :uint64_t,              # of copy-on-writes
-	      :lookups, :uint64_t,                 # object cache lookups
-	      :hits, :uint64_t,                    # object cache hits
-	      :purges, :uint64_t,                  # of pages purged
-	      :purgeable_count, :natural_t,        # of pages purgeable
-	      :speculative_count, :natural_t,      # of pages speculative
+        :free_count, :natural_t,             # of pages free
+        :active_count, :natural_t,           # of pages active
+        :inactive_count, :natural_t,         # of pages inactive
+        :wire_count, :natural_t,             # of pages wired down
+        :zero_fill_count, :uint64_t,         # of zero fill pages
+        :reactivations, :uint64_t,           # of pages reactivated
+        :pageins, :uint64_t,                 # of pageins
+        :pageouts, :uint64_t,                # of pageouts
+        :faults, :uint64_t,                  # of faults
+        :cow_faults, :uint64_t,              # of copy-on-writes
+        :lookups, :uint64_t,                 # object cache lookups
+        :hits, :uint64_t,                    # object cache hits
+        :purges, :uint64_t,                  # of pages purged
+        :purgeable_count, :natural_t,        # of pages purgeable
+        :speculative_count, :natural_t,      # of pages speculative
         :decompressions, :uint64_t,          # of pages decompressed
-	      :compressions, :uint64_t,            # of pages compressed
-	      :swapins, :uint64_t,                 # of pages swapped in (via compression segments)
-	      :swapouts, :uint64_t,                # of pages swapped out (via compression segments)
+        :compressions, :uint64_t,            # of pages compressed
+        :swapins, :uint64_t,                 # of pages swapped in (via compression segments)
+        :swapouts, :uint64_t,                # of pages swapped out (via compression segments)
         :compressor_page_count, :natural_t,  # of pages used by the compressed pager to hold all the compressed data
-	      :throttled_count, :natural_t,        # of pages throttled
-	      :external_page_count, :natural_t,    # of pages that are file-backed (non-swap)
-	      :internal_page_count, :natural_t,    # of pages that are anonymous
-	      :total_uncompressed_pages_in_compressor, :uint64_t # of pages (uncompressed) held within the compressor
+        :throttled_count, :natural_t,        # of pages throttled
+        :external_page_count, :natural_t,    # of pages that are file-backed (non-swap)
+        :internal_page_count, :natural_t,    # of pages that are anonymous
+        :total_uncompressed_pages_in_compressor, :uint64_t # of pages (uncompressed) held within the compressor
       )
     end
 
