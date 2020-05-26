@@ -67,7 +67,7 @@ module Sys
           raise Error, "sysctlbyname function failed"
         end
 
-        hash[:total_memory] = optr.read_uint64
+        hash[:total] = optr.read_uint64
       ensure
         optr.free if optr && !optr.null?
         size.clear
@@ -109,8 +109,30 @@ module Sys
       count.free if count && !count.null?
     end
 
-    module_function :memory
+    # Total physical memory in bytes.
+    #
+    def total
+      memory[:total]
+    end
+
+    # The physical memory currently available, in bytes.
+    #
+    def free
+      memory[:free]
+    end
+
+    # The physical memory, in bytes, currently in use.
+    def used
+      total - free
+    end
+
+    # A number between 0 and 100 that specifies the approximate percentage of
+    # physical memory that is in use.
+    #
+    def load
+      (used / total.to_f).round(2) * 100
+    end
+
+    module_function :memory, :total, :free, :load, :used
   end
 end
-
-p Sys::Memory.memory

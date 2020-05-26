@@ -42,8 +42,27 @@ module Sys
       hash
     end
 
+    # The total amount of actual physical memory, in bytes.
+    #
+    def total
+      memory['TotalPhys']
+    end
+
+    # The physical memory currently available, in bytes. This is the amount of
+    # physical memory that can be immediately reused without having to write
+    # its contents to disk first.
+    #
+    def free
+      memory['AvailPhys']
+    end
+
+    # A number between 0 and 100 that specifies the approximate percentage of
+    # physical memory that is in use.
+    #
+    def load
+      memory['MemoryLoad']
+    end
+
     module_function :memory
   end
 end
-
-p Sys::Memory.memory
