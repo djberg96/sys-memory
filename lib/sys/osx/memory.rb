@@ -109,30 +109,44 @@ module Sys
       count.free if count && !count.null?
     end
 
-    # Total physical memory in bytes.
+    # Total memory in bytes. By default this is only physical memory, but
+    # if the +extended+ option is set to true, then swap memory is included as
+    # part of the total.
     #
-    def total
-      memory[:total]
+    def total(extended: false)
+      hash = memory
+      extended ? hash[:total] + hash[:swap_total] : hash[:total]
     end
 
-    # The physical memory currently available, in bytes.
+    # The memory currently available, in bytes. By default this is only
+    # physical memory, but if the +extended+ option is set to true, then free
+    # swap memory is also included.
     #
-    def free
-      memory[:free]
+    def free(extended: false)
+      hash = memory
+      extended ? hash[:free] + hash[:swap_available] : hash[:free]
     end
 
-    # The physical memory, in bytes, currently in use.
-    def used
-      total - free
+    # The memory, in bytes, currently in use. By default this is only
+    # physical memory, but if the +extended+ option is set to true then
+    # swap is included in the calculation.
+    #
+    def used(extended: false)
+      total(extended) - free(extended)
     end
 
     # A number between 0 and 100 that specifies the approximate percentage of
-    # physical memory that is in use.
+    # memory that is in use. If the +extended+ option is set to true then
+    # swap memory is included in the calculation.
     #
-    def load
-      (used / total.to_f).round(2) * 100
+    def load(extended: false)
+      (used(extended) / total(extended).to_f).round(2) * 100
     end
 
     module_function :memory, :total, :free, :load, :used
   end
 end
+
+p Sys::Memory.memory
+p Sys::Memory.total(extended: false)
+p Sys::Memory.total(extended: true)
