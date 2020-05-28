@@ -23,12 +23,35 @@ module Sys
 
     attach_function :GlobalMemoryStatusEx, [MemoryStatusEx], :bool
 
+    ffi_lib 'psapi'
+
+    class PerformanceInformation < FFI::Struct
+      layout(
+        :cb, :dword,
+        :CommitTotal, :size_t,
+        :CommitLimit, :size_t,
+        :CommitPeak, :size_t,
+        :PhysicalTotal, :size_t,
+        :PhysicalAvailable, :size_t,
+        :SystemCache, :size_t,
+        :KernelTotal, :size_t,
+        :KernelPaged, :size_t,
+        :KernelNonpaged, :size_t,
+        :PageSize, :size_t,
+        :HandleCount, :dword,
+        :ProcessCount, :dword,
+        :ThreadCount, :dword
+      )
+    end
+
+    attach_function :GetPerformanceInfo, [PerformanceInformation, :dword], :bool
+
     def memory
       struct = MemoryStatusEx.new
       struct[:dwLength] = struct.size
 
       unless GlobalMemoryStatusEx(struct)
-        raise SystemCallError.new(FFI.errno)
+        raise SystemCallError.new('GlobalMemoryStatusEx', FFI.errno)
       end
 
       hash = {}
@@ -39,13 +62,30 @@ module Sys
       end
 
       hash.delete('Length')
+
+      perf = PerformanceInformation.new
+
+      unless GetPerformanceInfo(perf, perf.size)
+        raise SystemCallError.new('GetPerformanceInfo', FFI.errno)
+      end
+
+      perf.members.each do |member|
+        key = member.to_s
+        hash[key] = perf[member]
+      end
+
+      hash.delete('cb')
+
       hash
     end
 
-    # The total amount of actual physical memory, in bytes.
+    # Total memory in bytes. By default this is only physical memory, but
+    # if the +extended+ option is set to true, then swap memory is included as
+    # part of the total.
     #
-    def total
-      memory['TotalPhys']
+    def total(extended: false)
+      hash = memory
+      extended ? hash['TotalPhys'] + hash['TotalPageFile'] : hash['TotalPhys']
     end
 
     # The physical memory currently available, in bytes. This is the amount of
@@ -63,6 +103,6 @@ module Sys
       memory['MemoryLoad']
     end
 
-    module_function :memory
+    module_function :memory, :total, :free, :load
   end
 end
