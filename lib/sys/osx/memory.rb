@@ -78,7 +78,7 @@ module Sys
         size.write_int(swap.size)
 
         if sysctlbyname('vm.swapusage', swap, size, nil, 0) < 0
-          raise Error, "sysctlbyname function failed"
+          raise SystemCallError.new('sysctlbyname', FFI.errno)
         end
 
         hash[:swap_total] = swap[:xsu_total]
