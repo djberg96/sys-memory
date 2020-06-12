@@ -8,6 +8,8 @@ module Sys
     HOST_VM_INFO64 = 4
     HOST_VM_INFO64_COUNT = 38
 
+    private
+
     attach_function :sysctlbyname, [:string, :pointer, :pointer, :pointer, :size_t], :int
     attach_function :host_page_size, [:pointer, :pointer], :int
     attach_function :host_statistics64, [:pointer, :int, :pointer, :pointer], :int
@@ -54,6 +56,12 @@ module Sys
       )
     end
 
+    public
+
+    # Obtain detailed memory information about your host in the form of a hash.
+    # Note that the exact nature of this hash is largely dependent on your
+    # operating system.
+    #
     def memory
       hash = {}
       page_size = 4096 # Possibly changed later
@@ -146,7 +154,3 @@ module Sys
     module_function :memory, :total, :free, :load, :used
   end
 end
-
-p Sys::Memory.memory
-p Sys::Memory.total(extended: false)
-p Sys::Memory.total(extended: true)
