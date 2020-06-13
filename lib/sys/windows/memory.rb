@@ -46,6 +46,10 @@ module Sys
 
     attach_function :GetPerformanceInfo, [PerformanceInformation, :dword], :bool
 
+    # Obtain detailed memory information about your host in the form of a hash.
+    # Note that the exact nature of this hash is largely dependent on your
+    # operating system.
+    #
     def memory
       struct = MemoryStatusEx.new
       struct[:dwLength] = struct.size
@@ -80,8 +84,8 @@ module Sys
     end
 
     # Total memory in bytes. By default this is only physical memory, but
-    # if the +extended+ option is set to true, then swap memory is included as
-    # part of the total.
+    # if the +extended+ option is set to true then swap (pagefile) memory is
+    # included as part of the total.
     #
     def total(extended: false)
       hash = memory
@@ -92,17 +96,32 @@ module Sys
     # physical memory that can be immediately reused without having to write
     # its contents to disk first.
     #
-    def free
-      memory['AvailPhys']
+    # If the +extended+ option is set to true then available swap (pagefile)
+    # memory is included as part of the total.
+    #
+    def free(extended: false)
+      hash = memory
+      extended ? hash['AvailPhys'] + hash['AvailPageFile'] : hash['AvailPhys']
+    end
+
+    # The memory, in bytes, currently in use. By default this is only
+    # physical memory, but if the +extended+ option is set to true then
+    # swap (pagefile) is included in the calculation.
+    #
+    def used(extended: false)
+      total(extended) - free(extended)
     end
 
     # A number between 0 and 100 that specifies the approximate percentage of
     # physical memory that is in use.
     #
-    def load
+    # If the +extended+ option is set to true then swap memory is included in
+    # the calculation.
+    #
+    def load(extended: false)
       memory['MemoryLoad']
     end
 
-    module_function :memory, :total, :free, :load
+    module_function :memory, :total, :free, :load, :used
   end
 end
