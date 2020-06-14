@@ -1,13 +1,13 @@
 module Sys
   module Memory
     MEMORY_FILE = '/proc/meminfo'
+    MEMINFO_REGEX = /(.*)?:\s+?(\d+)/.freeze
 
     def memory
       hash = {}
-      regex = /(.*)?:\s+?(\d+)/
 
       IO.foreach(MEMORY_FILE) do |line|
-        key, value = regex.match(line.chomp).captures
+        key, value = MEMINFO_REGEX.match(line.chomp).captures
         hash[key] = value.to_i
       end
 
