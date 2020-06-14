@@ -1,7 +1,10 @@
 require 'rake'
 require 'rake/clean'
+require 'rspec/core/rake_task'
 
 CLEAN.include('**/*.gem', '**/*.rbc', '**/*.rbx')
+
+RSpec::Core::RakeTask.new(:spec)
 
 namespace 'gem' do
   desc "Create the sys-memory gem"
@@ -18,3 +21,5 @@ namespace 'gem' do
     sh "gem install -l #{file}"
   end
 end
+
+task :default => :spec
