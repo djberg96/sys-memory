@@ -8,6 +8,9 @@ module Sys
     HOST_VM_INFO64 = 4
     HOST_VM_INFO64_COUNT = 38
 
+    private_constant :HOST_VM_INFO64
+    private_constant :HOST_VM_INFO64_COUNT
+
     private
 
     attach_function :sysctlbyname, [:string, :pointer, :pointer, :pointer, :size_t], :int
