@@ -3,6 +3,13 @@ module Sys
     MEMORY_FILE = '/proc/meminfo'
     MEMINFO_REGEX = /(.*)?:\s+?(\d+)/.freeze
 
+    private_constant :MEMORY_FILE
+    private_constant :MEMINFO_REGEX
+
+    # Obtain detailed memory information about your host in the form of a hash.
+    # Note that the exact nature of this hash is largely dependent on your
+    # operating system.
+    #
     def memory
       hash = {}
 

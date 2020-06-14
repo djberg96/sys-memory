@@ -1,4 +1,5 @@
 require 'rbconfig'
+require_relative 'version'
 
 case RbConfig::CONFIG['host_os']
   when /linux/i
