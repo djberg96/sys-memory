@@ -45,7 +45,7 @@ module Sys
     #
     def used(extended: false)
       hash = memory
-      (total(extended) - free(extended) - hash['Buffers'] - hash['Cached'] - hash['Slab']) * 1024
+      (total(extended: extended) - free(extended: extended) - hash['Buffers'] - hash['Cached'] - hash['Slab']) * 1024
     end
 
     # A number between 0 and 100 that specifies the approximate percentage of
@@ -53,7 +53,7 @@ module Sys
     # swap memory is included in the calculation.
     #
     def load(extended: false)
-      (used(extended) / total(extended).to_f).round(2) * 100
+      (used(extended: extended) / total(extended: extended).to_f).round(2) * 100
     end
 
     module_function :memory, :total, :free, :used, :load

@@ -1,3 +1,4 @@
+require 'active_support/core_ext/numeric/bytes'
 require 'sys-memory'
 
 RSpec.describe Sys::Memory do
@@ -13,8 +14,19 @@ RSpec.describe Sys::Memory do
       expect(described_class).to respond_to(:memory)
     end
 
-    example 'the memory method returns the expected hash' do
+    example 'the memory singleton method returns the expected hash' do
       expect(described_class.memory).to be_kind_of(Hash)
+      expect(described_class.memory.size).to be > 4
+    end
+  end
+
+  context 'Sys::Memory.total' do
+    example 'the total singleton method is defined' do
+      expect(described_class).to respond_to(:total)
+    end
+
+    example 'the total singleton method returns a sane value' do
+      expect(described_class.total).to be > 64.megabytes
     end
   end
 end
