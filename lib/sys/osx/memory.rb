@@ -11,12 +11,13 @@ module Sys
     private_constant :HOST_VM_INFO64
     private_constant :HOST_VM_INFO64_COUNT
 
-    private
-
     attach_function :sysctlbyname, [:string, :pointer, :pointer, :pointer, :size_t], :int
     attach_function :host_page_size, [:pointer, :pointer], :int
     attach_function :host_statistics64, [:pointer, :int, :pointer, :pointer], :int
     attach_function :mach_host_self, [], :pointer
+
+    private_class_method :sysctlbyname, :host_page_size
+    private_class_method :host_statistics64, :mach_host_self
 
     typedef :uint, :natural_t
 
@@ -29,6 +30,8 @@ module Sys
         :xsu_encrypted, :bool
       )
     end
+
+    private_constant :Swap
 
     class VmStat < FFI::Struct
       layout(
@@ -59,7 +62,7 @@ module Sys
       )
     end
 
-    public
+    private_constant :VmStat
 
     # Obtain detailed memory information about your host in the form of a hash.
     # Note that the exact nature of this hash is largely dependent on your
@@ -75,7 +78,7 @@ module Sys
         size.write_int(optr.size)
 
         if sysctlbyname('hw.memsize', optr, size, nil, 0) < 0
-          raise Error, "sysctlbyname function failed"
+          raise SystemCallError.new('sysctlbyname', FFI.errno)
         end
 
         hash[:total] = optr.read_uint64
