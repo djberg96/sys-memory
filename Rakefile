@@ -2,7 +2,7 @@ require 'rake'
 require 'rake/clean'
 require 'rspec/core/rake_task'
 
-CLEAN.include('**/*.gem', '**/*.rbc', '**/*.rbx')
+CLEAN.include('**/*.gem', '**/*.rbc', '**/*.rbx', '**/*.lock')
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -12,7 +12,7 @@ namespace 'gem' do
     require 'rubygems/package'
     spec = eval(IO.read('sys-memory.gemspec'))
     spec.signing_key = File.join(Dir.home, '.ssh', 'gem-private_key.pem')
-    Gem::Package.build(spec, true)
+    Gem::Package.build(spec)
   end
 
   desc "Install the sys-memory gem"
