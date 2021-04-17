@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sys
   module Memory
     # The version of the sys-memory library.

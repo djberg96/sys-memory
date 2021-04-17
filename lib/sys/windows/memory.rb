@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sys
   module Memory
     require 'ffi'

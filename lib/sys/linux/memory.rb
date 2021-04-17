@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sys
   module Memory
     MEMORY_FILE = '/proc/meminfo'
