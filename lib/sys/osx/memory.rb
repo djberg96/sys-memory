@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ffi'
 
 module Sys
@@ -11,9 +13,9 @@ module Sys
     private_constant :HOST_VM_INFO64
     private_constant :HOST_VM_INFO64_COUNT
 
-    attach_function :sysctlbyname, [:string, :pointer, :pointer, :pointer, :size_t], :int
-    attach_function :host_page_size, [:pointer, :pointer], :int
-    attach_function :host_statistics64, [:pointer, :int, :pointer, :pointer], :int
+    attach_function :sysctlbyname, %i[string pointer pointer pointer size_t], :int
+    attach_function :host_page_size, %i[pointer pointer], :int
+    attach_function :host_statistics64, %i[pointer int pointer pointer], :int
     attach_function :mach_host_self, [], :pointer
 
     private_class_method :sysctlbyname, :host_page_size
