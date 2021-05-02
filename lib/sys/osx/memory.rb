@@ -148,7 +148,7 @@ module Sys
     # swap is included in the calculation.
     #
     def used(extended: false)
-      total(extended) - free(extended)
+      total(extended: extended) - free(extended: extended)
     end
 
     # A number between 0 and 100 that specifies the approximate percentage of
@@ -156,7 +156,7 @@ module Sys
     # swap memory is included in the calculation.
     #
     def load(extended: false)
-      (used(extended) / total(extended).to_f).round(2) * 100
+      (used(extended: extended) / total(extended: extended).to_f).round(2) * 100
     end
 
     module_function :memory, :total, :free, :load, :used

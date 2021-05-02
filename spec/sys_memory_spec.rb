@@ -39,4 +39,14 @@ RSpec.describe Sys::Memory do
       expect(described_class.free).to be > 64.megabytes
     end
   end
+
+  context 'Sys::Memory.used' do
+    example 'the used singleton method is defined' do
+      expect(described_class).to respond_to(:used)
+    end
+
+    example 'the used singleton method returns a sane value' do
+      expect(described_class.used).to be > 64.megabytes
+    end
+  end
 end
