@@ -29,4 +29,14 @@ RSpec.describe Sys::Memory do
       expect(described_class.total).to be > 64.megabytes
     end
   end
+
+  context 'Sys::Memory.free' do
+    example 'the free singleton method is defined' do
+      expect(described_class).to respond_to(:free)
+    end
+
+    example 'the free singleton method returns a sane value' do
+      expect(described_class.free).to be > 64.megabytes
+    end
+  end
 end
