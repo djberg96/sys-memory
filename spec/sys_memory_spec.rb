@@ -49,4 +49,14 @@ RSpec.describe Sys::Memory do
       expect(described_class.used).to be > 64.megabytes
     end
   end
+
+  context 'Sys::Memory.load' do
+    example 'the load singleton method is defined' do
+      expect(described_class).to respond_to(:load)
+    end
+
+    example 'the load singleton method returns a sane value' do
+      expect(described_class.load).to be > 1
+    end
+  end
 end
