@@ -2,7 +2,9 @@
 
 require 'ffi'
 
+# The Sys module serves only as a namespace.
 module Sys
+  # The Memory module is a house for memory related singleton methods that don't require state.
   module Memory
     extend FFI::Library
     ffi_lib FFI::Library::LIBC
