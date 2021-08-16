@@ -115,7 +115,7 @@ module Sys
     # swap (pagefile) is included in the calculation.
     #
     def used(extended: false)
-      total(extended) - free(extended)
+      total(extended: extended) - free(extended: extended)
     end
 
     # A number between 0 and 100 that specifies the approximate percentage of
