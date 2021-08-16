@@ -30,6 +30,9 @@ I realize there are some philosophical differences about what constitutes
 that I saw debated online. In short, you can choose to include swap memory
 as part of memory calculations or not as you see fit via an optional argument.
 
+You can also just use `Sys::Memory.memory` and collate the various hash data
+pieces as you see fit.
+
 ## Known Bugs
 None that I'm aware of. Please report bugs on the project page at:
 
