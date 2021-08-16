@@ -24,6 +24,12 @@ There's also the `free`, `used` and `load` module methods.
 ## Adding the trusted cert
 `gem cert --add <(curl -Ls https://raw.githubusercontent.com/djberg96/sys-memory/ffi/certs/djberg96_pub.pem)`
 
+## Notes
+I realize there are some philosophical differences about what constitutes
+"available memory". I've tried to accomodate both of the approaches to it
+that I saw debated online. In short, you can choose to include swap memory
+as part of memory calculations or not as you see fit via an optional argument.
+
 ## Known Bugs
 None that I'm aware of. Please report bugs on the project page at:
 
