@@ -1,9 +1,10 @@
+## Description
+A Ruby interface for getting memory information.
+
+## Supported Platforms
 * Linux
 * Windows
 * OSX
-
-## Description
-A Ruby interface for getting memory information.
 
 ## Installation
 `gem install sys-memory`
