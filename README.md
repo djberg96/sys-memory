@@ -22,7 +22,7 @@ p Sys::Memory.total(extended: true) # Total memory, include swap
 There's also the `free`, `used` and `load` module methods.
 
 ## Adding the trusted cert
-`gem cert --add <(curl -Ls https://raw.githubusercontent.com/djberg96/sys-memory/ffi/certs/djberg96_pub.pem)`
+`gem cert --add <(curl -Ls https://raw.githubusercontent.com/djberg96/sys-memory/main/certs/djberg96_pub.pem)`
 
 ## Notes
 I realize there are some philosophical differences about what constitutes
