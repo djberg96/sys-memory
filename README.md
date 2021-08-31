@@ -1,3 +1,5 @@
+[![Ruby](https://github.com/djberg96/sys-memory/actions/workflows/ruby.yml/badge.svg)](https://github.com/djberg96/sys-memory/actions/workflows/ruby.yml)
+
 ## Description
 A Ruby interface for getting memory information.
 
