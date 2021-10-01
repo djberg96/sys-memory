@@ -15,7 +15,7 @@ module Sys
     def memory
       hash = {}
 
-      IO.foreach(MEMORY_FILE) do |line|
+      File.foreach(MEMORY_FILE) do |line|
         key, value = MEMINFO_REGEX.match(line.chomp).captures
         hash[key] = value.to_i
       end
