@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# The Sys module serves as a namespace only.
 module Sys
   module Memory
     MEMORY_FILE = '/proc/meminfo'
@@ -59,5 +60,5 @@ module Sys
     end
 
     module_function :memory, :total, :free, :used, :load
-  end
-end
+  end # Memory
+end # Sys
