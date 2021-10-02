@@ -6,8 +6,6 @@ module Sys
     extend FFI::Library
     ffi_lib 'kernel32'
 
-    private
-
     typedef :uint32, :dword
     typedef :uint64, :dwordlong
 
@@ -25,7 +23,10 @@ module Sys
       )
     end
 
+    private_constant :MemoryStatusEx
+
     attach_function :GlobalMemoryStatusEx, [MemoryStatusEx], :bool
+    private_class_method :GlobalMemoryStatusEx
 
     ffi_lib 'psapi'
 
@@ -48,9 +49,10 @@ module Sys
       )
     end
 
-    attach_function :GetPerformanceInfo, [PerformanceInformation, :dword], :bool
+    private_constant :PerformanceInformation
 
-    public
+    attach_function :GetPerformanceInfo, [PerformanceInformation, :dword], :bool
+    private_class_method :GetPerformanceInfo
 
     # Obtain detailed memory information about your host in the form of a hash.
     # Note that the exact nature of this hash is largely dependent on your
