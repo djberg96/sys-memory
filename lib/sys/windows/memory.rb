@@ -123,10 +123,10 @@ module Sys
     # A number between 0 and 100 that specifies the approximate percentage of
     # physical memory that is in use.
     #
-    # If the +extended+ option is set to true then swap memory is included in
-    # the calculation.
+    # On MS Windows the +extended+ option is ignored, but present for interface
+    # compatibility with other platforms.
     #
-    def load(extended: false)
+    def load(_extended: false)
       memory['MemoryLoad']
     end
 
