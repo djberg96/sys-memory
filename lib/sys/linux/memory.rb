@@ -2,6 +2,8 @@
 
 # The Sys module serves as a namespace only.
 module Sys
+  # The Memory module provides various functions that return information
+  # regarding the memory on your system.
   module Memory
     MEMORY_FILE = '/proc/meminfo'
     MEMINFO_REGEX = /(.*)?:\s+?(\d+)/.freeze

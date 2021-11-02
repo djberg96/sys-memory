@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+# The Sys module serves as a namespace only.
 module Sys
+  # The Memory module provides various functions that return information
+  # regarding the memory on your system.
   module Memory
     require 'ffi'
     extend FFI::Library
