@@ -28,8 +28,8 @@ There's also the `free`, `used` and `load` module methods.
 
 ## Notes
 I realize there are some philosophical differences about what constitutes
-"available memory". I've tried to accomodate both of the approaches to it
-that I saw debated online. In short, you can choose to include swap memory
+"available memory". I've tried to accomodate both of the common approaches to
+it that I saw debated online. In short, you can choose to include swap memory
 as part of memory calculations or not as you see fit via an optional argument.
 
 You can also just use `Sys::Memory.memory` and collate the various hash data
@@ -38,7 +38,7 @@ pieces as you see fit.
 ## Known Bugs
 None that I'm aware of. Please report bugs on the project page at:
 
-https://github.com/djberg96/sys-cpu
+https://github.com/djberg96/sys-memory
 
 ## License
 Apache-2.0
