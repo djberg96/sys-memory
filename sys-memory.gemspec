@@ -16,6 +16,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('activesupport', "~> 6.0")
   spec.add_development_dependency('rspec', "~> 3.9")
   spec.add_development_dependency('rake', "~> 13.0")
+  spec.add_development_dependency('rubocop')
+  spec.add_development_dependency('rubocop-rspec')
 
   spec.metadata = {
     'homepage_uri'      => 'https://github.com/djberg96/sys-memory',
