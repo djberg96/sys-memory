@@ -20,12 +20,13 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('rubocop-rspec')
 
   spec.metadata = {
-    'homepage_uri'      => 'https://github.com/djberg96/sys-memory',
-    'bug_tracker_uri'   => 'https://github.com/djberg96/sys-memory/issues',
-    'changelog_uri'     => 'https://github.com/djberg96/sys-memory/blob/main/CHANGES.md',
-    'documentation_uri' => 'https://github.com/djberg96/sys-memory/wiki',
-    'source_code_uri'   => 'https://github.com/djberg96/sys-memory',
-    'wiki_uri'          => 'https://github.com/djberg96/sys-memory/wiki'
+    'homepage_uri'          => 'https://github.com/djberg96/sys-memory',
+    'bug_tracker_uri'       => 'https://github.com/djberg96/sys-memory/issues',
+    'changelog_uri'         => 'https://github.com/djberg96/sys-memory/blob/main/CHANGES.md',
+    'documentation_uri'     => 'https://github.com/djberg96/sys-memory/wiki',
+    'source_code_uri'       => 'https://github.com/djberg96/sys-memory',
+    'wiki_uri'              => 'https://github.com/djberg96/sys-memory/wiki',
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.description = <<-EOF
