@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Module Sys::Memory</title>
+  <link href="../../rdoc.css" rel="stylesheet">
+  <script src="../../scripts/jquery.js" type="text/javascript"></script>
+  <script src="../../scripts/mainFrame.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div id="header">
+  <p class="header-title">
+    <span class="prefix">Module</span><span class="name"> Sys::Memory</span>
+  </p>
+  
+  <p id="file-info">
+  
+    <span class="displayed">
+      <span class="in-files">In:</span>
+      <span class="first-files">
+        <a href="../../files/lib/sys/linux/memory_rb.html">lib/sys/linux/memory.rb</a><br>
+        <a href="#" id="show-all-files">(3 more...)</a>
+      </span>
+    </span>
+    <span class="hidden">
+      <span class="in-files">In:</span>
+      <span class="first-files">
+        <a href="#">lib/sys/linux/memory.rb</a><br>
+        <a href="#" id="show-all-files">(3 more...)</a>
+      </span>
+    </span>
+    <br>
+    <span id="all-files">
+    
+      <a href="../../files/lib/sys/osx/memory_rb.html">lib/sys/osx/memory.rb</a><br>
+    
+      <a href="../../files/lib/sys/version_rb.html">lib/sys/version.rb</a><br>
+    
+      <a href="../../files/lib/sys/windows/memory_rb.html">lib/sys/windows/memory.rb</a><br>
+    
+    </span>
+  
+  </p>
+</div>
+
+<div id="documentation">
+
+
+<p>The <a href="Memory.html"><code>Memory</code></a> module provides various functions that return information regarding the memory on your system.</p>
+
+<p>The <a href="Memory.html"><code>Memory</code></a> module is a house for memory related singleton methods that don’t require state.</p>
+
+<p>The <a href="Memory.html"><code>Memory</code></a> module provides various functions that return information regarding the memory on your system.</p>
+
+<!-- class/module aliases -->
+
+<!-- list of methods -->
+<div id="method-list" class="list">
+  <h3>Methods</h3>
+  
+    <ul>
+      
+      
+      <li><a href="#method-c-free"><span class="type">::</span>free</a></li>
+      
+      
+      <li><a href="#method-c-load"><span class="type">::</span>load</a></li>
+      
+      
+      <li><a href="#method-c-memory"><span class="type">::</span>memory</a></li>
+      
+      
+      <li><a href="#method-c-total"><span class="type">::</span>total</a></li>
+      
+      
+      <li><a href="#method-c-used"><span class="type">::</span>used</a></li>
+      
+    </ul>
+  
+  
+</div>
+
+<!-- namespace contents -->
+<div id="namespace-list" class="list">
+  <h3>Modules and Classes</h3>
+  <table class="classes-modules">
+  
+    <tr>
+      <td>Class</td>
+      <td><a href="Memory/MemoryStatusEx.html">MemoryStatusEx</a></td>
+    </tr>
+  
+    <tr>
+      <td>Class</td>
+      <td><a href="Memory/PerformanceInformation.html">PerformanceInformation</a></td>
+    </tr>
+  
+    <tr>
+      <td>Class</td>
+      <td><a href="Memory/Swap.html">Swap</a></td>
+    </tr>
+  
+    <tr>
+      <td>Class</td>
+      <td><a href="Memory/VmStat.html">VmStat</a></td>
+    </tr>
+  
+  </table>
+</div>
+
+<!-- included modules -->
+
+<!-- constants -->
+<div id="constant-list" class="list">
+  <h3>Constants</h3>
+  <table>
+  
+    <tr id="VERSION" class="const-display">
+      <td class="const-name"><p>VERSION</p></td>
+      <td class="const-desc">
+        
+          <p>The version of the sys-memory library.</p>
+        
+      </td>
+    <td><p class="click-advice">click to toggle value</p></td>
+    </tr>
+    <tr class="const-value">
+      <td></td>
+      <td><pre>&#39;0.1.1&#39;</pre></td>
+      <td></td>
+    </tr>
+  
+  </table>
+</div>
+
+<!-- external aliases -->
+
+<!-- class/module attributes -->
+
+<!-- instance attributes -->
+
+
+<h2 id="public-class-methods">Public Class Methods</h2>
+  <div id="method-c-free" class="method-detail">
+    <div class="method-heading">
+    
+      <span class="method-name">free</span><span class="method-args">(extended: false)</span>
+      
+    
+    
+      <span class="click-advice">click to toggle source</span>
+    
+    </div>
+    <div class="method-description">
+      <p>The memory currently available, in bytes. By default this is only physical memory, but if the <code>extended</code> option is set to true, then free swap memory is also included.</p>
+      
+<pre class="method-source-code"><span class="ruby-comment"># File lib/sys/linux/memory.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">free</span>(<span class="ruby-value">extended:</span> <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">memory</span>
+  <span class="ruby-identifier">extended</span> <span class="ruby-operator">?</span> (<span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;MemFree&#39;</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;SwapFree&#39;</span>]) <span class="ruby-operator">*</span> <span class="ruby-value">1024</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;MemFree&#39;</span>] <span class="ruby-operator">*</span> <span class="ruby-value">1024</span>
+<span class="ruby-keyword">end</span></pre>
+      
+    </div>
+
+  </div> <!-- #method-c-free -->
+  <div id="method-c-load" class="method-detail">
+    <div class="method-heading">
+    
+      <span class="method-name">load</span><span class="method-args">(extended: false)</span>
+      
+    
+    
+      <span class="click-advice">click to toggle source</span>
+    
+    </div>
+    <div class="method-description">
+      <p>A number between 0 and 100 that specifies the approximate percentage of memory that is in use. If the <code>extended</code> option is set to true then swap memory is included in the calculation.</p>
+      
+<pre class="method-source-code"><span class="ruby-comment"># File lib/sys/linux/memory.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">load</span>(<span class="ruby-value">extended:</span> <span class="ruby-keyword">false</span>)
+  (<span class="ruby-identifier">used</span>(<span class="ruby-value">extended:</span> <span class="ruby-identifier">extended</span>) <span class="ruby-operator">/</span> <span class="ruby-identifier">total</span>(<span class="ruby-value">extended:</span> <span class="ruby-identifier">extended</span>).<span class="ruby-identifier">to_f</span>).<span class="ruby-identifier">round</span>(<span class="ruby-value">2</span>) <span class="ruby-operator">*</span> <span class="ruby-value">100</span>
+<span class="ruby-keyword">end</span></pre>
+      
+    </div>
+
+  </div> <!-- #method-c-load -->
+  <div id="method-c-memory" class="method-detail">
+    <div class="method-heading">
+    
+      <span class="method-name">memory</span><span class="method-args">()</span>
+      
+    
+    
+      <span class="click-advice">click to toggle source</span>
+    
+    </div>
+    <div class="method-description">
+      <p>Obtain detailed memory information about your host in the form of a hash. Note that the exact nature of this hash is largely dependent on your operating system.</p>
+      
+<pre class="method-source-code"><span class="ruby-comment"># File lib/sys/linux/memory.rb, line 18</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">memory</span>
+  <span class="ruby-identifier">hash</span> = {}
+
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">foreach</span>(<span class="ruby-constant">MEMORY_FILE</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> = <span class="ruby-constant">MEMINFO_REGEX</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp</span>).<span class="ruby-identifier">captures</span>
+    <span class="ruby-identifier">hash</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">hash</span>
+<span class="ruby-keyword">end</span></pre>
+      
+    </div>
+
+  </div> <!-- #method-c-memory -->
+  <div id="method-c-total" class="method-detail">
+    <div class="method-heading">
+    
+      <span class="method-name">total</span><span class="method-args">(extended: false)</span>
+      
+    
+    
+      <span class="click-advice">click to toggle source</span>
+    
+    </div>
+    <div class="method-description">
+      <p>Total memory in bytes. By default this is only physical memory, but if the <code>extended</code> option is set to true, then swap memory is included as part of the total.</p>
+      
+<pre class="method-source-code"><span class="ruby-comment"># File lib/sys/linux/memory.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">total</span>(<span class="ruby-value">extended:</span> <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">memory</span>
+  <span class="ruby-identifier">extended</span> <span class="ruby-operator">?</span> (<span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;MemTotal&#39;</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;SwapTotal&#39;</span>]) <span class="ruby-operator">*</span> <span class="ruby-value">1024</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;MemTotal&#39;</span>] <span class="ruby-operator">*</span> <span class="ruby-value">1024</span>
+<span class="ruby-keyword">end</span></pre>
+      
+    </div>
+
+  </div> <!-- #method-c-total -->
+  <div id="method-c-used" class="method-detail">
+    <div class="method-heading">
+    
+      <span class="method-name">used</span><span class="method-args">(extended: false)</span>
+      
+    
+    
+      <span class="click-advice">click to toggle source</span>
+    
+    </div>
+    <div class="method-description">
+      <p>The memory, in bytes, currently in use. By default this is only physical memory, but if the <code>extended</code> option is set to true then swap is included in the calculation.</p>
+      
+<pre class="method-source-code"><span class="ruby-comment"># File lib/sys/linux/memory.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">used</span>(<span class="ruby-value">extended:</span> <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">hash</span> = <span class="ruby-identifier">memory</span>
+  (<span class="ruby-identifier">total</span>(<span class="ruby-value">extended:</span> <span class="ruby-identifier">extended</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">free</span>(<span class="ruby-value">extended:</span> <span class="ruby-identifier">extended</span>) <span class="ruby-operator">-</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;Buffers&#39;</span>] <span class="ruby-operator">-</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;Cached&#39;</span>] <span class="ruby-operator">-</span> <span class="ruby-identifier">hash</span>[<span class="ruby-string">&#39;Slab&#39;</span>]) <span class="ruby-operator">*</span> <span class="ruby-value">1024</span>
+<span class="ruby-keyword">end</span></pre>
+      
+    </div>
+
+  </div> <!-- #method-c-used -->
+
+</div> <!-- #documentation -->
+
+</body>
+</html>

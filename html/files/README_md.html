@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File README.md</title>
+  <link href="../rdoc.css" rel="stylesheet">
+  <script src="../scripts/jquery.js" type="text/javascript"></script>
+  <script src="../scripts/mainFrame.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+  <p class="header-title"><span class="prefix">File</span><span class="name"> README.md</span></p>
+  <p id="file-info">
+    <span class="displayed">
+      Path: README.md<br>
+      Modified: 2022-04-26 12:35:08
+    </span>
+  </p>
+</div>
+<div id="documentation">
+  
+<p><a href="https://github.com/djberg96/sys-memory/actions/workflows/ruby.yml"><img src="https://github.com/djberg96/sys-memory/actions/workflows/ruby.yml/badge.svg"></a></p>
+
+<h2 id="label-Description">Description</h2>
+
+<p>A Ruby interface for getting memory information.</p>
+
+<h2 id="label-Supported+Platforms">Supported Platforms</h2>
+<ul><li>
+<p>Linux</p>
+</li><li>
+<p>Windows</p>
+</li><li>
+<p>OSX</p>
+</li></ul>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p><code>gem install sys-memory</code></p>
+
+<h2 id="label-Adding+the+trusted+cert">Adding the trusted cert</h2>
+
+<p><code>gem cert --add &lt;(curl -Ls https://raw.githubusercontent.com/djberg96/sys-memory/main/certs/djberg96_pub.pem)</code></p>
+
+<h2 id="label-Synopsis">Synopsis</h2>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;sys-memory&#39;</span>
+
+<span class="ruby-identifier">p</span> <span class="ruby-constant">Sys</span><span class="ruby-operator">::</span><span class="ruby-constant">Memory</span>.<span class="ruby-identifier">memory</span>                <span class="ruby-comment"># Hash of all information</span>
+
+<span class="ruby-identifier">p</span> <span class="ruby-constant">Sys</span><span class="ruby-operator">::</span><span class="ruby-constant">Memory</span>.<span class="ruby-identifier">total</span>                 <span class="ruby-comment"># Total memory, no swap</span>
+<span class="ruby-identifier">p</span> <span class="ruby-constant">Sys</span><span class="ruby-operator">::</span><span class="ruby-constant">Memory</span>.<span class="ruby-identifier">total</span>(<span class="ruby-value">extended:</span> <span class="ruby-keyword">true</span>) <span class="ruby-comment"># Total memory, include swap</span>
+</pre>
+
+<p>There’s also the <code>free</code>, <code>used</code> and <code>load</code> module methods.</p>
+
+<h2 id="label-Notes">Notes</h2>
+
+<p>I realize there are some philosophical differences about what constitutes “available memory”. I’ve tried to accomodate both of the common approaches to it that I saw debated online. In short, you can choose to include swap memory as part of memory calculations or not as you see fit via an optional argument.</p>
+
+<p>You can also just use <code>Sys::Memory.memory</code> and collate the various hash data pieces as you see fit.</p>
+
+<h2 id="label-Known+Bugs">Known Bugs</h2>
+
+<p>None that I’m aware of. Please report bugs on the project page at:</p>
+
+<p><a href="https://github.com/djberg96/sys-memory">github.com/djberg96/sys-memory</a></p>
+
+<h2 id="label-License">License</h2>
+
+<p>Apache-2.0</p>
+
+<h2 id="label-Copyright">Copyright</h2>
+
+<p>© 2021 Daniel J. Berger, All Rights Reserved</p>
+
+<h2 id="label-Warranty">Warranty</h2>
+
+<p>This package is provided “as is” and without any express or implied warranties, including, without limitation, the implied warranties of merchantability and fitness for a particular purpose.</p>
+
+<h2 id="label-Author">Author</h2>
+
+<p>Daniel J. Berger</p>
+
+</div>
+</body>
+</html>

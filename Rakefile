@@ -2,6 +2,7 @@ require 'rake'
 require 'rake/clean'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
+require 'rdoc/task'
 
 CLEAN.include('**/*.gem', '**/*.rbc', '**/*.rbx', '**/*.lock')
 
@@ -21,6 +22,13 @@ namespace 'gem' do
     file = Dir["*.gem"].first
     sh "gem install -l #{file}"
   end
+end
+
+RDoc::Task.new do |rdoc|
+  rdoc.main = 'README.md'
+  rdoc.rdoc_files.include('README.md', 'lib/**/*.rb')
+  rdoc.options << '--format' << 'babel'
+  rdoc.title = 'sys-memory'
 end
 
 RuboCop::RakeTask.new
