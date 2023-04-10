@@ -2,7 +2,7 @@ require 'rubygems'
 
 Gem::Specification.new do |spec|
   spec.name       = 'sys-memory'
-  spec.version    = '0.1.1'
+  spec.version    = '0.1.2'
   spec.author     = 'Daniel J. Berger'
   spec.email      = 'djberg96@gmail.com'
   spec.license    = 'Apache-2.0'
@@ -12,10 +12,10 @@ Gem::Specification.new do |spec|
   spec.files      = Dir['**/*'].reject{ |f| f.include?('git') }
   spec.cert_chain = ['certs/djberg96_pub.pem']
 
-  spec.add_dependency('ffi', "~> 1.1")
-  spec.add_development_dependency('activesupport', "~> 6.0")
-  spec.add_development_dependency('rspec', "~> 3.9")
-  spec.add_development_dependency('rake', "~> 13.0")
+  spec.add_dependency('ffi', '~> 1.1')
+  spec.add_development_dependency('activesupport', '~> 6.0')
+  spec.add_development_dependency('rspec', '~> 3.9')
+  spec.add_development_dependency('rake', '~> 13.0')
   spec.add_development_dependency('rubocop')
   spec.add_development_dependency('rubocop-rspec')
 
@@ -26,7 +26,8 @@ Gem::Specification.new do |spec|
     'documentation_uri'     => 'https://github.com/djberg96/sys-memory/wiki',
     'source_code_uri'       => 'https://github.com/djberg96/sys-memory',
     'wiki_uri'              => 'https://github.com/djberg96/sys-memory/wiki',
-    'rubygems_mfa_required' => 'true'
+    'rubygems_mfa_required' => 'true',
+    'github_repo'           => 'https://github.com/djberg96/sys-memory'
   }
 
   spec.description = <<-EOF
