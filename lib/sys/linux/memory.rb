@@ -50,7 +50,7 @@ module Sys
     #
     def used(extended: false)
       hash = memory
-      (total(extended: extended) - free(extended: extended) - hash['Buffers'] - hash['Cached'] - hash['Slab']) * 1024
+      total(extended: extended) - free(extended: extended) - (hash['Buffers'] + hash['Cached'] + hash['Slab']) * 1024
     end
 
     # A number between 0 and 100 that specifies the approximate percentage of
