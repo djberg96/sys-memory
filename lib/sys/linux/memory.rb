@@ -68,6 +68,6 @@ module Sys
       (used(extended: extended) / total(extended: extended).to_f).round(2) * 100
     end
 
-    module_function :memory, :total, :free, :used, :load
+    module_function :memory, :total, :free, :used, :load, :available
   end # Memory
 end # Sys
