@@ -44,6 +44,13 @@ module Sys
       extended ? (hash['MemFree'] + hash['SwapFree']) * 1024 : hash['MemFree'] * 1024
     end
 
+    # The approximate amount of memory that is available for a new workload
+    # without pushing the system into swap.
+    #
+    def available
+      memory['MemAvailable'] * 1024
+    end
+
     # The memory, in bytes, currently in use. By default this is only
     # physical memory, but if the +extended+ option is set to true then
     # swap is included in the calculation.
