@@ -13,6 +13,25 @@ module Sys
 
     private_class_method :sysctlbyname
 
+    class VmTotal < FFI::Struct
+      layout(
+        :t_rq,     :long,   # length of the run queue
+        :t_dw,     :long,   # jobs in ``disk wait'' (neg priority)
+        :t_pw,     :long,   # jobs in page wait
+        :t_sl,     :long,   # jobs sleeping in core
+        :t_sw,     :long,   # swapped out runnable/short block jobs
+        :t_vm,     :int64,  # total virtual memory
+        :t_avm,    :int64,  # active virtual memory
+        :t_rm,     :long,   # total real memory in use
+        :t_arm,    :long,   # active real memory
+        :t_vmshr,  :int64,  # shared virtual memory
+        :t_avmshr, :int64,  # active shared virtual memory
+        :t_rmshr,  :long,   # shared real memory
+        :t_armshr, :long,   # active shared real memory
+        :t_free,   :long    # free memory pages
+      )
+    end
+
     class VmStats < FFI::Struct
       layout(
         :v_page_size, :uint,
