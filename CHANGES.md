@@ -1,3 +1,7 @@
+## 0.2.0 - 12-Jun-2024
+* Added support for DragonflyBSD. Currently the default implementation
+  for all BSD platforms.
+
 ## 0.1.3 - 12-Dec-2023
 * Fix "used" calculations on Linux. Thanks go to Splendide-Imaginarius
   for the spot and the patch.

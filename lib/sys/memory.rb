@@ -8,6 +8,8 @@ case RbConfig::CONFIG['host_os']
     require_relative 'linux/memory'
   when /darwin|macos/i
     require_relative 'osx/memory'
+  when /bsd|dragonfly/i
+    require_relative 'bsd/memory'
   when /windows|win32|mingw/i
     require_relative 'windows/memory'
 end
