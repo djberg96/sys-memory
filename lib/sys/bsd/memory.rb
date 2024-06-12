@@ -11,80 +11,23 @@ module Sys
 
     attach_function :sysctlbyname, %i[string pointer pointer pointer size_t], :int
 
-    private_class_method :sysctlbyname
-
-    class VmTotal < FFI::Struct
-      layout(
-        :t_rq,     :long,   # length of the run queue
-        :t_dw,     :long,   # jobs in ``disk wait'' (neg priority)
-        :t_pw,     :long,   # jobs in page wait
-        :t_sl,     :long,   # jobs sleeping in core
-        :t_sw,     :long,   # swapped out runnable/short block jobs
-        :t_vm,     :int64,  # total virtual memory
-        :t_avm,    :int64,  # active virtual memory
-        :t_rm,     :long,   # total real memory in use
-        :t_arm,    :long,   # active real memory
-        :t_vmshr,  :int64,  # shared virtual memory
-        :t_avmshr, :int64,  # active shared virtual memory
-        :t_rmshr,  :long,   # shared real memory
-        :t_armshr, :long,   # active shared real memory
-        :t_free,   :long    # free memory pages
-      )
-    end
-
-    class VmStats < FFI::Struct
-      layout(
-        :v_page_size, :uint,
-        :v_unused01, :uint,
-        :v_page_count, :long,
-        :v_free_severe, :long,
-        :v_free_reserved, :long,
-        :v_free_min, :long,
-        :v_free_target, :long,
-        :v_inactive_target, :long,
-        :v_paging_wait, :long,
-        :v_paging_start, :long,
-        :v_paging_target1, :long,
-        :v_paging_target2, :long,
-        :v_pageout_free_min, :long,
-        :v_interrupt_free_min, :long,
-        :v_dma_pages, :long,
-        :v_unused_fixed01, :long,
-        :v_unused_fixed02, :long,
-        :v_unused_fixed03, :long,
-        :v_free_count, :long,
-        :v_wire_count, :long,
-        :v_active_count, :long,
-        :v_inactive_count, :long,
-        :v_cache_count, :long,
-        :v_dma_avail, :long,
-        :v_unused_variable, [:long, 9]
-      )
-    end
-
-    private_constant :VmStats
-
     # Obtain detailed memory information about your host in the form of a hash.
     # Note that the exact nature of this hash is largely dependent on your
     # operating system.
     #
     def memory
+      page_size = get_by_name('hw.pagesize')
+
       hash = {}
-
-      begin
-        optr = FFI::MemoryPointer.new(:uint64_t)
-        size = FFI::MemoryPointer.new(:size_t)
-        size.write_int(optr.size)
-
-        if sysctlbyname('hw.physmem', optr, size, nil, 0) < 0
-          raise SystemCallError.new('sysctlbyname', FFI.errno)
-        end
-
-        hash[:total] = optr.read_uint64
-      ensure
-        optr.free if optr && !optr.null?
-        size.clear
-      end
+      hash[:total] = get_by_name('hw.physmem')
+      hash[:active] = get_by_name('vm.stats.vm.v_active_count') * page_size
+      hash[:all] = get_by_name('vm.stats.vm.v_page_count') * page_size
+      hash[:cache] = get_by_name('vm.stats.vm.v_cache_count') * page_size
+      hash[:free] = get_by_name('vm.stats.vm.v_free_count') * page_size
+      hash[:inactive] = get_by_name('vm.stats.vm.v_inactive_count') * page_size
+      hash[:wire] = get_by_name('vm.stats.vm.v_wire_count') * page_size
+      hash[:swap_size] = get_by_name('vm.swap_size')
+      hash[:swap_free] = get_by_name('vm.swap_free')
 
       hash
     end
@@ -95,7 +38,7 @@ module Sys
     #
     def total(extended: false)
       hash = memory
-      extended ? hash[:total] + hash[:swap_total] : hash[:total]
+      extended ? hash[:total] + hash[:swap_size] : hash[:total]
     end
 
     # The memory currently available, in bytes. By default this is only
@@ -104,7 +47,7 @@ module Sys
     #
     def free(extended: false)
       hash = memory
-      extended ? hash[:free] + hash[:swap_available] : hash[:free]
+      extended ? hash[:free] + hash[:swap_free] : hash[:free]
     end
 
     # The memory, in bytes, currently in use. By default this is only
@@ -124,7 +67,30 @@ module Sys
     end
 
     module_function :memory, :total, :free, :load, :used
+
+    private
+
+    def get_by_name(mib)
+      value = nil
+
+      begin
+        optr = FFI::MemoryPointer.new(:uint64_t)
+        size = FFI::MemoryPointer.new(:size_t)
+        size.write_int(optr.size)
+
+        if sysctlbyname(mib, optr, size, nil, 0) < 0
+          raise SystemCallError.new('sysctlbyname', FFI.errno)
+        end
+
+        value = optr.read_uint64
+      ensure
+        optr.free if optr && !optr.null?
+        size.free if size && !size.null?
+      end
+
+      value
+    end
+
+    module_function :get_by_name
   end
 end
-
-p Sys::Memory.memory
