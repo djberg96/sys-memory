@@ -7,6 +7,9 @@ A Ruby interface for getting memory information.
 * Linux
 * Windows
 * OSX
+* BSD
+
+Note that only DragonflyBSD has been tested. I am not sure about other flavors yet.
 
 ## Installation
 `gem install sys-memory`
@@ -44,7 +47,7 @@ https://github.com/djberg96/sys-memory
 Apache-2.0
 
 ## Copyright
-(C) 2021-2023 Daniel J. Berger, All Rights Reserved
+(C) 2021-2024 Daniel J. Berger, All Rights Reserved
 
 ## Warranty
 This package is provided "as is" and without any express or
