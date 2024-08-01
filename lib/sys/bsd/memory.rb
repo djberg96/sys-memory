@@ -26,7 +26,13 @@ module Sys
       hash[:free] = get_by_name('vm.stats.vm.v_free_count') * page_size
       hash[:inactive] = get_by_name('vm.stats.vm.v_inactive_count') * page_size
       hash[:wire] = get_by_name('vm.stats.vm.v_wire_count') * page_size
-      hash[:swap_size] = get_by_name('vm.swap_size')
+
+      if RbConfig::CONFIG['host_os'] =~ /dragonfly/i
+        hash[:swap_size] = get_by_name('vm.swap_size')
+      else
+        hash[:swap_size] = get_by_name('vm.swap_total')
+      end
+
       hash[:swap_free] = get_by_name('vm.swap_free')
 
       hash
