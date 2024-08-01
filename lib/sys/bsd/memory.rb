@@ -29,11 +29,10 @@ module Sys
 
       if RbConfig::CONFIG['host_os'] =~ /dragonfly/i
         hash[:swap_size] = get_by_name('vm.swap_size')
+        hash[:swap_free] = get_by_name('vm.swap_free')
       else
         hash[:swap_size] = get_by_name('vm.swap_total')
       end
-
-      hash[:swap_free] = get_by_name('vm.swap_free')
 
       hash
     end
