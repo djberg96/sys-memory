@@ -32,6 +32,7 @@ module Sys
         hash[:swap_free] = get_by_name('vm.swap_free')
       else
         hash[:swap_size] = get_by_name('vm.swap_total')
+        hash[:swap_free] = hash[:swap_size] - get_by_name('vm.swap_reserved') # Best guess
       end
 
       hash
