@@ -85,7 +85,7 @@ module Sys
         size.write_int(optr.size)
 
         if sysctlbyname(mib, optr, size, nil, 0) < 0
-          raise SystemCallError.new('sysctlbyname', FFI.errno)
+          raise SystemCallError.new("sysctlbyname: #{mib}", FFI.errno)
         end
 
         value = optr.read_uint64
