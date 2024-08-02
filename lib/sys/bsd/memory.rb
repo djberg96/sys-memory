@@ -26,8 +26,14 @@ module Sys
       hash[:free] = get_by_name('vm.stats.vm.v_free_count') * page_size
       hash[:inactive] = get_by_name('vm.stats.vm.v_inactive_count') * page_size
       hash[:wire] = get_by_name('vm.stats.vm.v_wire_count') * page_size
-      hash[:swap_size] = get_by_name('vm.swap_size')
-      hash[:swap_free] = get_by_name('vm.swap_free')
+
+      if RbConfig::CONFIG['host_os'] =~ /dragonfly/i
+        hash[:swap_size] = get_by_name('vm.swap_size')
+        hash[:swap_free] = get_by_name('vm.swap_free')
+      else
+        hash[:swap_size] = get_by_name('vm.swap_total')
+        hash[:swap_free] = hash[:swap_size] - get_by_name('vm.swap_reserved') # Best guess
+      end
 
       hash
     end
@@ -79,7 +85,7 @@ module Sys
         size.write_int(optr.size)
 
         if sysctlbyname(mib, optr, size, nil, 0) < 0
-          raise SystemCallError.new('sysctlbyname', FFI.errno)
+          raise SystemCallError.new("sysctlbyname: #{mib}", FFI.errno)
         end
 
         value = optr.read_uint64
