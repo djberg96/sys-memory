@@ -17,7 +17,7 @@ RSpec.describe Sys::Memory do
     end
 
     example 'the memory singleton method returns the expected hash' do
-      expect(described_class.memory).to be_kind_of(Hash)
+      expect(described_class.memory).to be_a(Hash)
       expect(described_class.memory.size).to be > 4
     end
   end
