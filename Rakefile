@@ -5,7 +5,10 @@ require 'rubocop/rake_task'
 
 CLEAN.include('**/*.gem', '**/*.rbc', '**/*.rbx', '**/*.lock')
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.verbose = false
+  t.rspec_opts = '-f documentation'
+end
 
 namespace 'gem' do
   desc "Create the sys-memory gem"
