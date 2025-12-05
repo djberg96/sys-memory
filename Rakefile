@@ -7,7 +7,7 @@ CLEAN.include('**/*.gem', '**/*.rbc', '**/*.rbx', '**/*.lock')
 
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.verbose = false
-  t.rspec_opts = '-f documentation'
+  t.rspec_opts = '-f documentation -w'
 end
 
 namespace 'gem' do
