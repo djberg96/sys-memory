@@ -20,6 +20,28 @@ RSpec.describe Sys::Memory do
       expect(described_class.memory).to be_kind_of(Hash)
       expect(described_class.memory.size).to be > 4
     end
+
+    example 'the memory singleton method returns non-negative numeric values' do
+      described_class.memory.each do |key, value|
+        expect(value).to be_kind_of(Numeric), "#{key.inspect} should be numeric"
+        expect(value).to be >= 0
+      end
+    end
+
+    example 'the memory singleton method returns sane swap values' do
+      memory = described_class.memory
+      swap_total, swap_free = [
+        %i[swap_size swap_free],
+        %i[swap_total swap_available],
+        %w[SwapTotal SwapFree],
+        %w[TotalPageFile AvailPageFile]
+      ].find { |total_key, free_key| memory.key?(total_key) && memory.key?(free_key) }
+
+      skip 'no swap values reported on this platform' unless swap_total && swap_free
+
+      expect(memory[swap_total]).to be >= 0
+      expect(memory[swap_free]).to be_between(0, memory[swap_total]).inclusive
+    end
   end
 
   context 'Sys::Memory.total' do

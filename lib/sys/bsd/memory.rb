@@ -11,6 +11,28 @@ module Sys
 
     attach_function :sysctlbyname, %i[string pointer pointer pointer size_t], :int
 
+    if RbConfig::CONFIG['host_os'] =~ /freebsd/i
+      ffi_lib FFI::Library::LIBC, FFI.map_library_name('kvm')
+
+      attach_function :kvm_openfiles, %i[string string string int pointer], :pointer
+      attach_function :kvm_geterr, [:pointer], :string
+      attach_function :kvm_getswapinfo, %i[pointer pointer int int], :int
+      attach_function :kvm_close, [:pointer], :int
+
+      class KvmSwap < FFI::Struct
+        layout(
+          :ksw_devname, [:char, 32],
+          :ksw_used, :uint,
+          :ksw_total, :uint,
+          :ksw_flags, :int,
+          :ksw_reserved1, :uint,
+          :ksw_reserved2, :uint
+        )
+      end
+
+      private_constant :KvmSwap
+    end
+
     # Obtain detailed memory information about your host in the form of a hash.
     # Note that the exact nature of this hash is largely dependent on your
     # operating system.
@@ -30,6 +52,9 @@ module Sys
       if RbConfig::CONFIG['host_os'] =~ /dragonfly/i
         hash[:swap_size] = get_by_name('vm.swap_size')
         hash[:swap_free] = get_by_name('vm.swap_free')
+      elsif RbConfig::CONFIG['host_os'] =~ /freebsd/i
+        hash[:swap_size] = get_by_name('vm.swap_total')
+        hash[:swap_free] = hash[:swap_size] - get_freebsd_swap_used(page_size)
       else
         hash[:swap_size] = get_by_name('vm.swap_total')
         hash[:swap_free] = hash[:swap_size] - get_by_name('vm.swap_reserved') # Best guess
@@ -97,6 +122,31 @@ module Sys
       value
     end
 
-    module_function :get_by_name
+    def get_freebsd_swap_used(page_size)
+      kd = nil
+
+      begin
+        error = FFI::MemoryPointer.new(:char, 2048)
+        kd = kvm_openfiles(nil, '/dev/null', nil, 0, error)
+
+        if kd.null?
+          message = error.read_string
+          raise SystemCallError, "kvm_openfiles: #{message.empty? ? 'unknown error' : message}"
+        end
+
+        swap = KvmSwap.new
+
+        if kvm_getswapinfo(kd, swap.pointer, 1, 0) < 0
+          raise SystemCallError, "kvm_getswapinfo: #{kvm_geterr(kd)}"
+        end
+
+        swap[:ksw_used] * page_size
+      ensure
+        kvm_close(kd) if kd && !kd.null?
+        error.free if error && !error.null?
+      end
+    end
+
+    module_function :get_by_name, :get_freebsd_swap_used
   end
 end
