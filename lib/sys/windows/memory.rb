@@ -7,11 +7,13 @@ module Sys
   module Memory
     require 'ffi'
     extend FFI::Library
+
     ffi_lib 'kernel32'
 
     typedef :uint32, :dword
     typedef :uint64, :dwordlong
 
+    # Private wrapper class for the MEMORYSTATUSEX struct
     class MemoryStatusEx < FFI::Struct
       layout(
         :dwLength, :dword,
@@ -33,6 +35,7 @@ module Sys
 
     ffi_lib 'psapi'
 
+    # Private wrapper class for the PERFORMANCE_INFORMATION struct
     class PerformanceInformation < FFI::Struct
       layout(
         :cb, :dword,

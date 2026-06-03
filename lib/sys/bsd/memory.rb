@@ -7,6 +7,7 @@ module Sys
   # The Memory module is a house for memory related singleton methods that don't require state.
   module Memory
     extend FFI::Library
+
     ffi_lib FFI::Library::LIBC
 
     attach_function :sysctlbyname, %i[string pointer pointer pointer size_t], :int
@@ -19,6 +20,7 @@ module Sys
       attach_function :kvm_getswapinfo, %i[pointer pointer int int], :int
       attach_function :kvm_close, [:pointer], :int
 
+      # Private class wrapper for struct kvm_swap
       class KvmSwap < FFI::Struct
         layout(
           :ksw_devname, [:char, 32],
@@ -127,7 +129,7 @@ module Sys
 
       begin
         error = FFI::MemoryPointer.new(:char, 2048)
-        kd = kvm_openfiles(nil, '/dev/null', nil, 0, error)
+        kd = kvm_openfiles(nil, File::NULL, nil, 0, error)
 
         if kd.null?
           message = error.read_string

@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.cert_chain = ['certs/djberg96_pub.pem']
 
   spec.add_dependency('ffi', '~> 1.1')
-  spec.add_development_dependency('activesupport', '~> 6.0')
+  spec.add_development_dependency('activesupport', '>= 6.0')
   spec.add_development_dependency('rspec', '~> 3.9')
   spec.add_development_dependency('rake', '~> 13.0')
   spec.add_development_dependency('rubocop')

@@ -7,6 +7,7 @@ module Sys
   # The Memory module is a house for memory related singleton methods that don't require state.
   module Memory
     extend FFI::Library
+
     ffi_lib FFI::Library::LIBC
 
     HOST_VM_INFO64 = 4
@@ -25,6 +26,7 @@ module Sys
 
     typedef :uint, :natural_t
 
+    # Private class wrapper for struct swap
     class Swap < FFI::Struct
       layout(
         :xsu_total, :uint64_t,
@@ -37,6 +39,7 @@ module Sys
 
     private_constant :Swap
 
+    # Private class wrapper for struct vmstat
     class VmStat < FFI::Struct
       layout(
         :free_count, :natural_t,             # of pages free
