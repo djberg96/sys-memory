@@ -40,8 +40,6 @@ free. The `available` method reports memory that can be used by new work without
 serious memory pressure. On platforms that expose caches or inactive pages
 separately, `available` may be higher than `free`.
 
-The hash returned by `Sys::Memory.memory` also includes an `:available` key.
-
 You can also just use `Sys::Memory.memory` and collate the various hash data
 pieces as you see fit.
 
