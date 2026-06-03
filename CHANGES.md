@@ -1,3 +1,10 @@
+## 0.3.0 - 3-Jun-2026
+* Added an .available method. Thanks go to Splendide-Imaginarius for the
+  original inspiration.
+* Fixed the MacOS version. Recent versions of MacOS added more vm_stat
+  struct members so that code was updated accordingly.
+* Minor gemspec tweak.
+
 ## 0.2.1 - 2-Jun-2026
 * Fixed swap for FreeBSD.
 * Rubocop fixes.
