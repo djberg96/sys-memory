@@ -39,6 +39,12 @@ RSpec.describe Sys::Memory do
       end
     end
 
+    example 'the memory singleton method returns available memory' do
+      expect(memory).to have_key(:available)
+      expect(memory[:available]).to be_a(Numeric)
+      expect(memory[:available]).to be >= 0
+    end
+
     example 'the memory singleton method returns sane swap values' do
       swap_total, swap_free = swap_keys
       skip 'no swap values reported on this platform' unless swap_total && swap_free

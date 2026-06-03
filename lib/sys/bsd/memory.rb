@@ -62,6 +62,8 @@ module Sys
         hash[:swap_free] = hash[:swap_size] - get_by_name('vm.swap_reserved') # Best guess
       end
 
+      hash[:available] = hash[:free] + hash[:inactive] + hash[:cache]
+
       hash
     end
 
@@ -90,7 +92,7 @@ module Sys
     #
     def available(extended: false)
       hash = memory
-      available = hash[:free] + hash[:inactive] + hash[:cache]
+      available = hash[:available]
 
       extended ? available + hash[:swap_free] : available
     end

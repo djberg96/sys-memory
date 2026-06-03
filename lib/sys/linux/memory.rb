@@ -23,6 +23,10 @@ module Sys
         hash[key] = value.to_i
       end
 
+      hash[:available] = hash.fetch('MemAvailable') do
+        hash['MemFree'] + hash['Buffers'] + hash['Cached'] + hash.fetch('SReclaimable', 0)
+      end
+
       hash
     end
 
@@ -51,9 +55,7 @@ module Sys
     #
     def available(extended: false)
       hash = memory
-      available = hash.fetch('MemAvailable') do
-        hash['MemFree'] + hash['Buffers'] + hash['Cached'] + hash.fetch('SReclaimable', 0)
-      end
+      available = hash[:available]
 
       extended ? (available + hash['SwapFree']) * 1024 : available * 1024
     end

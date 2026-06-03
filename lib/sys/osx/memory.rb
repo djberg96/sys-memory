@@ -124,6 +124,7 @@ module Sys
       hash[:speculative] = vmstat[:speculative_count] * page_size
       hash[:wire] = vmstat[:wire_count] * page_size
       hash[:compressed] = vmstat[:compressor_page_count] * page_size
+      hash[:available] = hash[:free] + hash[:inactive]
 
       hash
     ensure
@@ -155,7 +156,7 @@ module Sys
     #
     def available(extended: false)
       hash = memory
-      available = hash[:free] + hash[:inactive]
+      available = hash[:available]
 
       extended ? available + hash[:swap_available] : available
     end
