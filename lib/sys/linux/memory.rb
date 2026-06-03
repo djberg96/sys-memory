@@ -23,9 +23,10 @@ module Sys
         hash[key] = value.to_i
       end
 
-      hash[:available] = hash.fetch('MemAvailable') do
+      available = hash.fetch('MemAvailable') do
         hash['MemFree'] + hash['Buffers'] + hash['Cached'] + hash.fetch('SReclaimable', 0)
       end
+      hash[:available] = available
 
       hash
     end
