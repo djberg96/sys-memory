@@ -27,13 +27,20 @@ p Sys::Memory.total                 # Total memory, no swap
 p Sys::Memory.total(extended: true) # Total memory, include swap
 ```
 
-There's also the `free`, `used` and `load` module methods.
+There's also the `free`, `available`, `used` and `load` module methods.
 
 ## Notes
 I realize there are some philosophical differences about what constitutes
 "available memory". I've tried to accomodate both of the common approaches to
 it that I saw debated online. In short, you can choose to include swap memory
 as part of memory calculations or not as you see fit via an optional argument.
+
+The `free` method reports memory the operating system currently classifies as
+free. The `available` method reports memory that can be used by new work without
+serious memory pressure. On platforms that expose caches or inactive pages
+separately, `available` may be higher than `free`.
+
+The hash returned by `Sys::Memory.memory` also includes an `:available` key.
 
 You can also just use `Sys::Memory.memory` and collate the various hash data
 pieces as you see fit.

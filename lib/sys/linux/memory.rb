@@ -23,6 +23,11 @@ module Sys
         hash[key] = value.to_i
       end
 
+      available = hash.fetch('MemAvailable') do
+        hash['MemFree'] + hash['Buffers'] + hash['Cached'] + hash.fetch('SReclaimable', 0)
+      end
+      hash[:available] = available
+
       hash
     end
 
@@ -44,6 +49,18 @@ module Sys
       extended ? (hash['MemFree'] + hash['SwapFree']) * 1024 : hash['MemFree'] * 1024
     end
 
+    # The memory currently available, in bytes. This is an estimate of the
+    # amount of memory available for starting new applications, without swapping.
+    # If the +extended+ option is set to true, then free swap memory is also
+    # included.
+    #
+    def available(extended: false)
+      hash = memory
+      available = hash[:available]
+
+      extended ? (available + hash['SwapFree']) * 1024 : available * 1024
+    end
+
     # The memory, in bytes, currently in use. By default this is only
     # physical memory, but if the +extended+ option is set to true then
     # swap is included in the calculation.
@@ -61,6 +78,6 @@ module Sys
       (used(extended: extended) / total(extended: extended).to_f).round(2) * 100
     end
 
-    module_function :memory, :total, :free, :used, :load
+    module_function :memory, :total, :free, :available, :used, :load
   end # Memory
 end # Sys
