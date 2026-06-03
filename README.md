@@ -9,7 +9,7 @@ A Ruby interface for getting memory information.
 * OSX
 * BSD
 
-Note that only DragonflyBSD has been tested. I am not sure about other flavors yet.
+Note that only FreeBSD and DragonflyBSD have been tested. I am not sure about other flavors yet.
 
 ## Installation
 `gem install sys-memory`
