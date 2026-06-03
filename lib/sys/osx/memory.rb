@@ -11,10 +11,10 @@ module Sys
     ffi_lib FFI::Library::LIBC
 
     HOST_VM_INFO64 = 4
-    HOST_VM_INFO64_COUNT = 38
+    INTEGER_T_SIZE = 4
 
     private_constant :HOST_VM_INFO64
-    private_constant :HOST_VM_INFO64_COUNT
+    private_constant :INTEGER_T_SIZE
 
     attach_function :sysctlbyname, %i[string pointer pointer pointer size_t], :int
     attach_function :host_page_size, %i[pointer pointer], :int
@@ -65,7 +65,19 @@ module Sys
         :throttled_count, :natural_t,        # of pages throttled
         :external_page_count, :natural_t,    # of pages that are file-backed (non-swap)
         :internal_page_count, :natural_t,    # of pages that are anonymous
-        :total_uncompressed_pages_in_compressor, :uint64_t # of pages (uncompressed) held within the compressor
+        :total_uncompressed_pages_in_compressor, :uint64_t, # of pages (uncompressed) held within the compressor
+        :swapped_count, :uint64_t, # of compressor-stored pages currently stored in swap
+        :total_tag_storage_pages, :uint64_t,
+        :nontag_pageable_tag_storage_pages, :uint64_t,
+        :nontag_wired_tag_storage_pages, :uint64_t,
+        :free_tag_storage_pages, :uint64_t,
+        :tag_storing_tag_storage_pages, :uint64_t,
+        :total_tagged_pages, :uint64_t,
+        :resident_tagged_pages, :uint64_t,
+        :compressed_tagged_pages, :uint64_t,
+        :tagged_compressions, :uint64_t,
+        :tagged_decompressions, :uint64_t,
+        :compressed_tag_storage_bytes, :uint64_t
       )
     end
 
@@ -112,8 +124,8 @@ module Sys
 
       host_self = mach_host_self()
       vmstat = VmStat.new
-      count = FFI::MemoryPointer.new(:size_t)
-      count.write_int(vmstat.size)
+      count = FFI::MemoryPointer.new(:uint)
+      count.write_uint(vmstat.size / INTEGER_T_SIZE)
 
       rv = host_statistics64(host_self, HOST_VM_INFO64, vmstat, count)
       raise SystemCallError.new('host_statistics64', rv) if rv != 0
