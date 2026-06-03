@@ -83,6 +83,18 @@ module Sys
       extended ? hash[:free] + hash[:swap_free] : hash[:free]
     end
 
+    # The memory currently available, in bytes. This includes free memory and
+    # inactive/cache pages that the system can reclaim.
+    # If the +extended+ option is set to true, then free swap memory is also
+    # included.
+    #
+    def available(extended: false)
+      hash = memory
+      available = hash[:free] + hash[:inactive] + hash[:cache]
+
+      extended ? available + hash[:swap_free] : available
+    end
+
     # The memory, in bytes, currently in use. By default this is only
     # physical memory, but if the +extended+ option is set to true then
     # swap is included in the calculation.
@@ -99,7 +111,7 @@ module Sys
       (used(extended: extended) / total(extended: extended).to_f).round(2) * 100
     end
 
-    module_function :memory, :total, :free, :load, :used
+    module_function :memory, :total, :free, :available, :load, :used
 
     private
 

@@ -68,6 +68,20 @@ RSpec.describe Sys::Memory do
     end
   end
 
+  context 'Sys::Memory.available' do
+    example 'the available singleton method is defined' do
+      expect(described_class).to respond_to(:available)
+    end
+
+    example 'the available singleton method returns a sane value' do
+      expect(described_class.available).to be > 64.megabytes
+    end
+
+    example 'the available singleton method is at least free memory' do
+      expect(described_class.available).to be >= described_class.free
+    end
+  end
+
   context 'Sys::Memory.used' do
     example 'the used singleton method is defined' do
       expect(described_class).to respond_to(:used)

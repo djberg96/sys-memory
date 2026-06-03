@@ -118,6 +118,18 @@ module Sys
       extended ? hash['AvailPhys'] + hash['AvailPageFile'] : hash['AvailPhys']
     end
 
+    # The physical memory currently available, in bytes. This is the amount of
+    # physical memory that can be immediately reused without having to write
+    # its contents to disk first.
+    #
+    # If the +extended+ option is set to true then available swap (pagefile)
+    # memory is included as part of the total.
+    #
+    def available(extended: false)
+      hash = memory
+      extended ? hash['AvailPhys'] + hash['AvailPageFile'] : hash['AvailPhys']
+    end
+
     # The memory, in bytes, currently in use. By default this is only
     # physical memory, but if the +extended+ option is set to true then
     # swap (pagefile) is included in the calculation.
@@ -136,6 +148,6 @@ module Sys
       memory['MemoryLoad']
     end
 
-    module_function :memory, :total, :free, :load, :used
+    module_function :memory, :total, :free, :available, :load, :used
   end
 end
