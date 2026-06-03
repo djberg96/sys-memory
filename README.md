@@ -47,7 +47,7 @@ https://github.com/djberg96/sys-memory
 Apache-2.0
 
 ## Copyright
-(C) 2021-2024 Daniel J. Berger, All Rights Reserved
+(C) 2021-2026 Daniel J. Berger, All Rights Reserved
 
 ## Warranty
 This package is provided "as is" and without any express or
