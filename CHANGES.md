@@ -1,3 +1,9 @@
+## 0.2.1 - 2-Jun-2026
+* Fixed swap for FreeBSD.
+* Rubocop fixes.
+* Some spec updates.
+* Minor Rakefile updates.
+
 ## 0.2.0 - 12-Jun-2024
 * Added support for DragonflyBSD. Currently the default implementation
   for all BSD platforms.
