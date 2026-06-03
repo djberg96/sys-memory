@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.homepage   = 'https://github.com/djberg96/sys-memory'
   spec.summary    = 'A Ruby interface for providing memory information'
   spec.test_file  = 'spec/sys_memory_spec.rb'
-  spec.files      = Dir['**/*'].reject{ |f| f.include?('git') }
+  spec.files      = Dir['**/*'].reject{ |f| f.include?('git') || f.end_with?('.gem') }
   spec.cert_chain = ['certs/djberg96_pub.pem']
 
   spec.add_dependency('ffi', '~> 1.1')
