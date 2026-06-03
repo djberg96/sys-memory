@@ -128,7 +128,7 @@ module Sys
 
       begin
         error = FFI::MemoryPointer.new(:char, 2048)
-        kd = kvm_openfiles(nil, '/dev/null', nil, 0, error)
+        kd = kvm_openfiles(nil, File::NULL, nil, 0, error)
 
         if kd.null?
           message = error.read_string
