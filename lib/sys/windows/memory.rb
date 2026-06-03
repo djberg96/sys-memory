@@ -93,7 +93,6 @@ module Sys
       end
 
       hash.delete('cb')
-      hash[:available] = hash['AvailPhys']
 
       hash
     end
@@ -128,7 +127,7 @@ module Sys
     #
     def available(extended: false)
       hash = memory
-      extended ? hash[:available] + hash['AvailPageFile'] : hash[:available]
+      extended ? hash['AvailPhys'] + hash['AvailPageFile'] : hash['AvailPhys']
     end
 
     # The memory, in bytes, currently in use. By default this is only

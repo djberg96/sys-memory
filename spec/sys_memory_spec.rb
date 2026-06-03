@@ -17,7 +17,7 @@ RSpec.describe Sys::Memory do
 
   context 'Sys::Memory::VERSION' do
     example 'the version constant is set to the expected value' do
-      expect(described_class::VERSION).to eq('0.2.1')
+      expect(described_class::VERSION).to eq('0.3.0')
       expect(described_class::VERSION).to be_frozen
     end
   end
