@@ -7,6 +7,7 @@ module Sys
   module Memory
     require 'ffi'
     extend FFI::Library
+
     ffi_lib 'kernel32'
 
     typedef :uint32, :dword

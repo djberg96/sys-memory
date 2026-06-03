@@ -23,7 +23,7 @@ RSpec.describe Sys::Memory do
 
     example 'the memory singleton method returns non-negative numeric values' do
       described_class.memory.each do |key, value|
-        expect(value).to be_kind_of(Numeric), "#{key.inspect} should be numeric"
+        expect(value).to be_a(Numeric), "#{key.inspect} should be numeric"
         expect(value).to be >= 0
       end
     end

@@ -7,6 +7,7 @@ module Sys
   # The Memory module is a house for memory related singleton methods that don't require state.
   module Memory
     extend FFI::Library
+
     ffi_lib FFI::Library::LIBC
 
     attach_function :sysctlbyname, %i[string pointer pointer pointer size_t], :int
