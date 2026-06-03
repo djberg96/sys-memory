@@ -4,6 +4,17 @@ require 'active_support/core_ext/numeric/bytes'
 require 'sys-memory'
 
 RSpec.describe Sys::Memory do
+  let(:memory) { described_class.memory }
+
+  let(:swap_keys) do
+    [
+      %i[swap_size swap_free],
+      %i[swap_total swap_available],
+      %w[SwapTotal SwapFree],
+      %w[TotalPageFile AvailPageFile]
+    ].find { |total_key, free_key| memory.key?(total_key) && memory.key?(free_key) }
+  end
+
   context 'Sys::Memory::VERSION' do
     example 'the version constant is set to the expected value' do
       expect(described_class::VERSION).to eq('0.2.0')
@@ -29,14 +40,7 @@ RSpec.describe Sys::Memory do
     end
 
     example 'the memory singleton method returns sane swap values' do
-      memory = described_class.memory
-      swap_total, swap_free = [
-        %i[swap_size swap_free],
-        %i[swap_total swap_available],
-        %w[SwapTotal SwapFree],
-        %w[TotalPageFile AvailPageFile]
-      ].find { |total_key, free_key| memory.key?(total_key) && memory.key?(free_key) }
-
+      swap_total, swap_free = swap_keys
       skip 'no swap values reported on this platform' unless swap_total && swap_free
 
       expect(memory[swap_total]).to be >= 0
