@@ -40,6 +40,7 @@ RSpec.describe Sys::Memory do
     end
 
     example 'the memory singleton method returns available memory' do
+      skip 'skipped on Windows' if Gem.win_platform?
       expect(memory).to have_key(:available)
       expect(memory[:available]).to be_a(Numeric)
       expect(memory[:available]).to be >= 0
