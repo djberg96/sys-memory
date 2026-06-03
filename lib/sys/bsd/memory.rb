@@ -20,6 +20,7 @@ module Sys
       attach_function :kvm_getswapinfo, %i[pointer pointer int int], :int
       attach_function :kvm_close, [:pointer], :int
 
+      # Private class wrapper for struct kvm_swap
       class KvmSwap < FFI::Struct
         layout(
           :ksw_devname, [:char, 32],
